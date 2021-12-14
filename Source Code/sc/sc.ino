@@ -11,7 +11,6 @@ void setup(){
     digitalWrite(relay1, LOW);
     digitalWrite(relay2, LOW);
     Serial.begin(9600);
-    delay(1000);
 }
 void loop(){
     byte tegangan1 = digitalRead(ac1);
@@ -20,10 +19,13 @@ void loop(){
     Serial.println(tegangan1);
     Serial.print("Tegangan Panel = ");
     Serial.println(tegangan2);
-    digitalWrite(relay1, HIGH);
-    digitalWrite(relay2, HIGH);
-    delay(2000);
-    digitalWrite(relay1, LOW);
-    digitalWrite(relay2, LOW);
-    delay(2000);
+    if(tegangan1 == 1){
+        digitalWrite(relay1, HIGH);
+        digitalWrite(relay2, LOW);
+        Serial.print("Relay 1 Aktif");
+    }else{
+        digitalWrite(relay1, LOW);
+        digitalWrite(relay2, HIGH);
+        Serial.print("Relay 2 Aktif");
+    }
 }
