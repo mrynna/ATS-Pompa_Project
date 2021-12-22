@@ -37,57 +37,41 @@ void loop(){
     Serial.print("Tegangan Aki = ");
     Serial.println(voltdc);
     delay(500);
-    if(voltdc < 11.4){
-      if(tegangan1 == 0 && tegangan2 == 0){
-          delay(500);
-          digitalWrite(relay2, LOW);
-          delay(1000);
-          digitalWrite(relay1, LOW);
-          Serial.println("\n Tegangan Aktif : TEGANGAN PLN \n");
-      }else if(tegangan1 == 1 && tegangan2 == 1){
-          delay(500);
-          digitalWrite(relay1, HIGH);
-          delay(1000);
-          digitalWrite(relay2, LOW);
-          Serial.println("\n Tegangan Aktif : tidak ada \n");
-       }else if(tegangan1 == 1 && tegangan2 == 0){
-          delay(500);
-          digitalWrite(relay1, HIGH);
-          delay(1000);
-          digitalWrite(relay2, LOW);
-          Serial.println("\n Tegangan Aktif : Tidak ada \n");
-       }else{
-          delay(500);
-          digitalWrite(relay2, LOW);
-          delay(1000);
-          digitalWrite(relay1, LOW);
-          Serial.println("\n Tegangan Aktif : TEGANGAN PLN \n");
-        }
-    }else{
-      if(tegangan1 == 0 && tegangan2 == 0){
-          delay(500);
-          digitalWrite(relay1, HIGH);
-          delay(1000);
-          digitalWrite(relay2, HIGH);
-          Serial.println("\n Tegangan Aktif : TEGANGAN PLTS \n");
-      }else if(tegangan1 == 1 && tegangan2 == 0){
-          delay(500);
-          digitalWrite(relay1, HIGH);
-          delay(1000);
-          digitalWrite(relay2, HIGH);
-          Serial.println("\n Tegangan Aktif : TEGANGAN PLTS \n");
-      }else if(tegangan1 == 1 && tegangan2 == 1){
-          delay(500);
-          digitalWrite(relay1, HIGH);
-          delay(1000);
-          digitalWrite(relay2, LOW);
-          Serial.println("\n Tegangan Aktif : tidak ada \n");
-       }else{
-          delay(500);
-          digitalWrite(relay2, LOW);
-          delay(1000);
-          digitalWrite(relay1, LOW);
-          Serial.println("\n Tegangan Aktif : TEGANGAN PLN \n");         
-       }
+    if((voltdc >= 11.4) && (tegangan1 == 0 && tegangan2 == 0)){
+       delay(500);
+       digitalWrite(relay1, HIGH);
+       delay(1000);
+       digitalWrite(relay2, HIGH);
+       Serial.println("\n Tegangan Aktif : TEGANGAN PLTS \n");
+    }else if((voltdc >= 11.4) && (tegangan1 == 1 && tegangan2 == 0)){
+       delay(500);
+       digitalWrite(relay1, HIGH);
+       delay(1000);
+       digitalWrite(relay2, HIGH);
+       Serial.println("\n Tegangan Aktif : TEGANGAN PLTS \n");
+    }else if((voltdc < 11.4) && (tegangan1 == 1 && tegangan2 == 0)){
+       delay(500);
+       digitalWrite(relay1, HIGH);
+       delay(1000);
+       digitalWrite(relay2, LOW);
+       Serial.println("\n Tegangan Aktif : tidak ada \n");
+    }else if((voltdc < 11.4) && (tegangan1 == 0 && tegangan2 == 0)){
+       delay(500);
+       digitalWrite(relay2, LOW);
+       delay(1000);
+       digitalWrite(relay1, LOW);
+       Serial.println("\n Tegangan Aktif : TEGANGAN PLN \n"); 
+    }else if((voltdc < 11.4 || voltdc >= 11.4) && (tegangan1 == 1 && tegangan2 == 1)){
+       delay(500);
+       digitalWrite(relay1, HIGH);
+       delay(1000);
+       digitalWrite(relay2, LOW);
+       Serial.println("\n Tegangan Aktif : tidak ada \n");
+     }else{
+       delay(500);
+       digitalWrite(relay2, LOW);
+       delay(1000);
+       digitalWrite(relay1, LOW);
+       Serial.println("\n Tegangan Aktif : TEGANGAN PLN \n");         
     }
 }
