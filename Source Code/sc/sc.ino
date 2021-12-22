@@ -2,6 +2,8 @@ int ac1 = 5;
 int ac2 = 4;
 int relay1 = 14;
 int relay2 = 12;
+int relay1b = 13;
+int relay2b = 16;
 int dcv = A0;
 float vmodul = 0.0; 
 float voltdc = 0.0;
@@ -15,10 +17,14 @@ void setup(){
     pinMode(dcv, INPUT);
     pinMode(relay1, OUTPUT);
     pinMode(relay2, OUTPUT);
-    Serial.begin(9600);
+    pinMode(relay1b, OUTPUT);
+    pinMode(relay2b, OUTPUT);
+    Serial.begin(115200);
     delay(1000);
     digitalWrite(relay1, HIGH);
     digitalWrite(relay2, LOW);
+    digitalWrite(relay1b, HIGH);
+    digitalWrite(relay2b, LOW);
 }
 void loop(){
     avalue = analogRead(dcv);
@@ -37,41 +43,53 @@ void loop(){
     Serial.print("Tegangan Aki = ");
     Serial.println(voltdc);
     delay(500);
-    if((voltdc >= 11.4) && (tegangan1 == 0 && tegangan2 == 0)){
+    if(voltdc >= 11.4 && tegangan1 == 0 && tegangan2 == 0){
        delay(500);
        digitalWrite(relay1, HIGH);
+       digitalWrite(relay1b, HIGH);
        delay(1000);
        digitalWrite(relay2, HIGH);
+       digitalWrite(relay2b, HIGH);
        Serial.println("\n Tegangan Aktif : TEGANGAN PLTS \n");
-    }else if((voltdc >= 11.4) && (tegangan1 == 1 && tegangan2 == 0)){
+    }else if(voltdc >= 11.4 && tegangan1 == 1 && tegangan2 == 0){
        delay(500);
        digitalWrite(relay1, HIGH);
+       digitalWrite(relay1b, HIGH);
        delay(1000);
        digitalWrite(relay2, HIGH);
+       digitalWrite(relay2b, HIGH);
        Serial.println("\n Tegangan Aktif : TEGANGAN PLTS \n");
-    }else if((voltdc < 11.4) && (tegangan1 == 1 && tegangan2 == 0)){
+    }else if(voltdc < 11.4 && tegangan1 == 1 && tegangan2 == 0){
        delay(500);
        digitalWrite(relay1, HIGH);
+       digitalWrite(relay1b, HIGH);
        delay(1000);
        digitalWrite(relay2, LOW);
+       digitalWrite(relay2b, LOW);
        Serial.println("\n Tegangan Aktif : tidak ada \n");
-    }else if((voltdc < 11.4) && (tegangan1 == 0 && tegangan2 == 0)){
+    }else if(voltdc < 11.4 && tegangan1 == 0 && tegangan2 == 0){
        delay(500);
        digitalWrite(relay2, LOW);
+       digitalWrite(relay2b, LOW);
        delay(1000);
        digitalWrite(relay1, LOW);
+       digitalWrite(relay1b, LOW);
        Serial.println("\n Tegangan Aktif : TEGANGAN PLN \n"); 
-    }else if((voltdc < 11.4 || voltdc >= 11.4) && (tegangan1 == 1 && tegangan2 == 1)){
+    }else if((voltdc < 11.4 || voltdc >= 11.4) && tegangan1 == 1 && tegangan2 == 1){
        delay(500);
        digitalWrite(relay1, HIGH);
+       digitalWrite(relay1b, HIGH);
        delay(1000);
        digitalWrite(relay2, LOW);
+       digitalWrite(relay2b, LOW);
        Serial.println("\n Tegangan Aktif : tidak ada \n");
      }else{
        delay(500);
        digitalWrite(relay2, LOW);
+       digitalWrite(relay2b, LOW);
        delay(1000);
        digitalWrite(relay1, LOW);
+       digitalWrite(relay1b, LOW);
        Serial.println("\n Tegangan Aktif : TEGANGAN PLN \n");         
     }
 }
